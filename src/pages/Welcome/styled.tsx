@@ -15,6 +15,7 @@ export const ContainerLogo = styled.View`
 export const Logo = styled.Image`
   width: 70%;
 `;
+
 export const ContainerText = styled.View`
   flex: 1;
   background-color: #fff;
@@ -35,7 +36,9 @@ export const Text = styled.Text`
   color: #a1a1a1;
 `;
 
-export const Button = styled.TouchableOpacity`
+export const Button = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.7,
+})`
   position: absolute;
   background-color: #fe563f;
   border-radius: 50px;
