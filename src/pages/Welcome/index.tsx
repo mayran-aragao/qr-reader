@@ -21,7 +21,6 @@ const Welcome = () => {
       <ContainerLogo>
         <Animatable.View
           animation="fadeInLeft"
-          duration={1000}
           useNativeDriver={true}
           style={{
             width: "100%",
@@ -51,7 +50,7 @@ const Welcome = () => {
 
           <Button
             onPress={() =>
-              navigation.navigate("Scanner" as never, {} as never)
+              navigation.navigate("Home" as never, {} as never)
             }
           >
             <ButtonText>Acessar</ButtonText>

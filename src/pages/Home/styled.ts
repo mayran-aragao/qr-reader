@@ -1,19 +1,22 @@
 import styled from "styled-components/native";
 
-export const Container = styled.View`
+export const Container = styled.SafeAreaView`
   flex: 1;
   background-color: #fe563f;
 `;
 
 export const ContainerLogo = styled.View`
-  flex: 2;
   background-color: #fe563f;
   justify-content: center;
-  align-items: center;
+  margin-top: 14%;
+  margin-bottom: 8%;
+  padding-left: 5%;
 `;
 
-export const Logo = styled.Image`
-  width: 70%;
+export const LogoText = styled.Text`
+  font-size:28px;
+  color: #fff;
+  font-weight: bold;
 `;
 
 export const ContainerText = styled.View`
@@ -23,13 +26,19 @@ export const ContainerText = styled.View`
   border-top-right-radius: 25px;
   padding-left: 5%;
   padding-right: 5%;
+  align-items: center;
 `;
 
-export const Title = styled.Text`
-  font-size: 24px;
-  font-weight: bold;
-  margin-top: 28px;
-  margin-bottom: 12px;
+export const ContainerStatus = styled.View`
+  width: 50%;
+  border-width: 1px;
+  border-color: #c1c1c1;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 8px ;
+  margin-top: 5px;
+
 `;
 
 export const Text = styled.Text`
