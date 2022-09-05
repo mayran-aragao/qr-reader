@@ -1,11 +1,12 @@
 export const ProductSchema = {
   name: "Product",
   properties: {
-    _id: "int",
+    _id: "string",
     status: "string",
     recordedDate: "date",
     sentDate: "date?",
-    data: "object",
+    data: "string",
+    deliveryManLocation:"string"
   },
   primaryKey: "_id",
 };

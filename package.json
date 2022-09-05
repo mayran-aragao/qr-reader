@@ -14,6 +14,7 @@
     "@react-navigation/native-stack": "^6.8.0",
     "expo": "~46.0.9",
     "expo-barcode-scanner": "~11.4.0",
+    "expo-location": "~14.3.0",
     "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",
     "react": "18.0.0",
@@ -25,6 +26,7 @@
     "react-native-screens": "~3.15.0",
     "react-native-uuid": "^2.0.1",
     "react-native-web": "~0.18.7",
+    "realm": "^10.18.0",
     "styled-components": "^5.3.5"
   },
   "devDependencies": {

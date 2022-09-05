@@ -57,7 +57,7 @@ export const Button = styled.TouchableOpacity.attrs({
   activeOpacity: 0.7,
 })`
   position: absolute;
-  background-color: #fe563f;
+  background-color: ${props => props.color};
   border-radius: 50px;
   padding: 8px 8px;
   width: 60%;

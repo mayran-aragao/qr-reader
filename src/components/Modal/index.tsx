@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
 import {
   Container,
@@ -19,14 +19,16 @@ const Modal = ({onSubmit}:Props) => {
   
   const [modalVisible, setModalVisible] = useState(true);
   const [open, setOpen] = useState(false);
-  const netInfo = useNetInfo();
-  const navigation = useNavigation();
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
     { label: "Entregue   ✅", value: "Entregue" },
     { label: "Ausente    🤷‍♂️", value: "Ausente" },
     { label: "Extravio   ❌", value: "Extravio" },
   ]);
+
+  const disabled = useMemo(() => {
+    return value ? false : true
+  },[value])
 
   const handleRegister = () => {
     setModalVisible(!modalVisible)
@@ -55,7 +57,7 @@ const Modal = ({onSubmit}:Props) => {
                 marginTop: 10,
               }}
             />
-            <Button onPress={handleRegister}>
+            <Button disabled={disabled} color={disabled ? "#c1c1c1":"#fe563f" } onPress={handleRegister}>
               <ButtonText>Registrar</ButtonText>
             </Button>
           </ModalView>
