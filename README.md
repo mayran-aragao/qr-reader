@@ -43,7 +43,7 @@ $ cd qr-reader
 $ yarn install or npm install
 
 # executar projeto
-$ expo run:android -d
+$ expo run:android -d or expo run:ios -d
 ```
 
 **Acessar  o link abaixo para analisar os produtos enviados.**
