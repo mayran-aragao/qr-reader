@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { useNetInfo } from "@react-native-community/netinfo";
 import * as Location from "expo-location";
 import {
@@ -12,12 +12,14 @@ import {
   ButtonText,
 } from "./styled";
 import * as Animatable from "react-native-animatable";
-import { useNavigation } from "@react-navigation/native";
-import { Alert } from "react-native";
-import { getRealm } from "../../databases/realm";
-import api from "../../api";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { Alert, FlatList } from "react-native";
+import Product from "../../components/Product";
+import { getProducts } from "../../tools/getProducts";
+import { sendProductsToApi } from "../../tools/sendProductsToApi";
+import EmptyList from "../../components/EmptyList";
 
-export type Product = {
+export type ProductProps = {
   _id: string;
   status: string;
   recordedDate: Date;
@@ -27,8 +29,7 @@ export type Product = {
 };
 
 const Home = () => {
-  const [locationPermission, setLocationPermission] = useState(null);
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductProps[]>([]);
   const netInfo = useNetInfo();
   const navigation = useNavigation();
 
@@ -36,56 +37,34 @@ const Home = () => {
     return netInfo.isInternetReachable;
   }, [netInfo.isInternetReachable]);
 
- 
-
   const getLocalProducts = async () => {
-    const realm = await getRealm();
-
     try {
-      const response = realm.objects("Product").toJSON();
-      setProducts(response);
-    } catch {
-      Alert.alert("Produtos", "Ops, não conseguimos carregar os produtos");
-    } finally {
-      realm.close();
+      const products = await getProducts();
+      setProducts(products);
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const handleUnsentProducts = async () => {
-    const realm = await getRealm();
-    const sentDate = new Date().toLocaleString("pt-BR", {
-      timeZone: "America/Sao_Paulo",
-    });
-
+  const sentProduct = async () => {
     try {
       if (isInternetReachable) {
-        const response = realm
-          .objects("Product")
-          .filtered(`sentDate = ${null}`);
-
-        if (response.length) {
-          response.map((product: object) => {
-            realm.write(() => {
-              product['sentDate'] = sentDate;
-            });
-            api(product);
-          });
+        const qtdSent = await sendProductsToApi();
+        if (qtdSent !== 0) {
+          Alert.alert(`${qtdSent} produtos enviados`);
         }
       }
-    } catch {
-      Alert.alert("Produtos", "Ops, não conseguimos enviar os produtos");
-    } finally {
-      realm.close();
+    } catch (error) {
+      console.log(error);
     }
   };
-
-  useEffect(() => {
-    getLocalProducts();
-  }, []);
-
-  useEffect(() => {
-    handleUnsentProducts();
-  }, [isInternetReachable]);
+  useFocusEffect(
+    useCallback(() => {
+      sentProduct();
+      getLocalProducts();
+    }, [isInternetReachable])
+  );
+  
 
   useEffect(() => {
     (async () => {
@@ -94,7 +73,6 @@ const Home = () => {
         Alert.alert("Permissão para acessar localização necessária");
         return;
       }
-      setLocationPermission(status === "granted");
     })();
   }, []);
 
@@ -110,11 +88,24 @@ const Home = () => {
           animation="fadeInUp"
           delay={600}
           useNativeDriver={true}
-          style={{ flex: 1 }}
         >
-          <ContainerStatus>
-            <Text>Status: {isInternetReachable ? "Online" : "Offline"}</Text>
+          <ContainerStatus status={isInternetReachable}>
+            <Text status={isInternetReachable}>
+              Status: {isInternetReachable ? "Online" : "Offline"}
+            </Text>
           </ContainerStatus>
+          <FlatList
+            data={products}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => <Product data={item} />}
+            contentContainerStyle={{
+              paddingBottom: 20,
+              marginTop: 10,
+            }}
+            ListEmptyComponent={<EmptyList/>}
+            showsVerticalScrollIndicator={false}
+            style={{ height: "80%" }}
+          />
           <Button
             onPress={() => navigation.navigate("Scanner" as never, {} as never)}
           >

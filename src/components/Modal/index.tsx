@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
-import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
+import React, { useMemo, useState } from "react";
 import {
   Container,
   ContainerModal,
@@ -7,15 +6,16 @@ import {
   ModalView,
   Button,
   ButtonText,
+
 } from "./styled";
-import { useNavigation } from "@react-navigation/native";
 import DropDownPicker from "react-native-dropdown-picker";
 
 type Props = {
   onSubmit: Function
+  onClose: Function
 };
 
-const Modal = ({onSubmit}:Props) => {
+const Modal = ({onSubmit, onClose}:Props) => {
   
   const [modalVisible, setModalVisible] = useState(true);
   const [open, setOpen] = useState(false);
@@ -34,15 +34,20 @@ const Modal = ({onSubmit}:Props) => {
     setModalVisible(!modalVisible)
     onSubmit(value)
   }
+  const handleClose = () => {
+    setModalVisible(!modalVisible)
+    onClose()
+  }
 
   return (
     <Container>
       <ContainerModal
-        animationType="slide"
+        animationType="fade"
         visible={modalVisible}
         transparent={true}
+        onRequestClose={handleClose}
       >
-        <CenteredView>
+        <CenteredView onPressOut={handleClose}>
           <ModalView>
             <DropDownPicker
               open={open}

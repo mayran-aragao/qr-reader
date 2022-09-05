@@ -5,7 +5,9 @@ export const Container = styled.SafeAreaView`
   justify-content: center;
   align-items: center;
 `;
-export const CenteredView = styled.View`
+export const CenteredView = styled.TouchableOpacity.attrs({
+  activeOpacity: 1,
+})`
   width: 100%;
   height: 100%;
   background-color: rgba(0,0,0,0.5);
@@ -18,14 +20,8 @@ export const ModalView = styled.View`
   width: 70%;
   height: 200px;
   border-radius: 20px;
-  /* justify-content: center; */
   align-items: center;
   background-color: #fff;
-`;
-export const LogoText = styled.Text`
-  font-size: 28px;
-  color: #fff;
-  font-weight: bold;
 `;
 
 export const ContainerText = styled.View`
@@ -36,21 +32,6 @@ export const ContainerText = styled.View`
   padding-left: 5%;
   padding-right: 5%;
   align-items: center;
-`;
-
-export const ContainerStatus = styled.View`
-  width: 50%;
-  border-width: 1px;
-  border-color: #c1c1c1;
-  border-radius: 10px;
-  justify-content: center;
-  align-items: center;
-  padding: 8px 8px;
-  margin-top: 5px;
-`;
-
-export const Text = styled.Text`
-  color: #a1a1a1;
 `;
 
 export const Button = styled.TouchableOpacity.attrs({

@@ -1,5 +1,9 @@
 import styled from "styled-components/native";
 
+export type StatusStyleProps = {
+  status: boolean;
+};
+
 export const Container = styled.SafeAreaView`
   flex: 1;
   background-color: #fe563f;
@@ -14,35 +18,37 @@ export const ContainerLogo = styled.View`
 `;
 
 export const LogoText = styled.Text`
-  font-size:28px;
+  font-size: 28px;
   color: #fff;
   font-weight: bold;
 `;
 
 export const ContainerText = styled.View`
   flex: 1;
-  background-color: #fff;
+  background-color: #f1f1f1;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
   padding-left: 5%;
   padding-right: 5%;
-  align-items: center;
 `;
 
-export const ContainerStatus = styled.View`
+export const ContainerStatus = styled.View<StatusStyleProps>`
   width: 50%;
   border-width: 1px;
-  border-color: #c1c1c1;
+  border-color: ${({ status }) =>
+    status ? "#228B22" : "#FF0000"};;
   border-radius: 10px;
   justify-content: center;
   align-items: center;
-  padding: 8px 8px ;
+  align-self: center;
+  padding: 8px 8px;
   margin-top: 5px;
-
 `;
 
-export const Text = styled.Text`
-  color: #a1a1a1;
+export const Text = styled.Text<StatusStyleProps>`
+  color: ${({ status }) =>
+    status ? "#228B22" : "#FF0000"};
+  /* #228B22 */
 `;
 
 export const Button = styled.TouchableOpacity.attrs({
@@ -51,10 +57,10 @@ export const Button = styled.TouchableOpacity.attrs({
   position: absolute;
   background-color: #fe563f;
   border-radius: 50px;
-  padding: 8px 8px ;
+  padding: 8px 8px;
   width: 60%;
   align-self: center;
-  bottom: 15%;
+  bottom: -10%;
   align-items: center;
   justify-content: center;
 `;

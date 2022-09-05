@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import uuid from "react-native-uuid";
-import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
+import { useNetInfo } from "@react-native-community/netinfo";
 
 import { Container } from "./styled";
 import Modal from "../../components/Modal";
 import Loading from "../../components/Loading";
-import api from '../../api'
+import api from "../../api";
 
-import * as Location from 'expo-location';
+import * as Location from "expo-location";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { getRealm } from "../../databases/realm";
 import { Alert } from "react-native";
@@ -37,47 +37,40 @@ const Scanner = () => {
 
   const handleStatus = async (value: string) => {
     setOpenModal(false);
+    setIsloading(true);
+
     const realm = await getRealm();
-    let location = await Location.getCurrentPositionAsync({})
+    let location = await Location.getCurrentPositionAsync({});
     const recordedDate = new Date().toLocaleString("pt-BR", {
       timeZone: "America/Sao_Paulo",
-      dateStyle: 'short'
     });
-    console.log('recordedDate',recordedDate)
     const dataToSend = {
       _id: uuid.v4(),
       status: value,
       recordedDate,
       data: JSON.stringify(codeData),
-      deliveryManLocation:JSON.stringify(location)
+      deliveryManLocation: JSON.stringify(location),
     };
 
     try {
-      setIsloading(true);
       if (netInfo.isInternetReachable) {
         dataToSend["sentDate"] = recordedDate;
-
-        api(dataToSend)
-
-        realm.write(() => {
-          realm.create("Product", dataToSend);
-        });
-
-      } else {
-        realm.write(() => {
-          realm.create("Product", dataToSend);
-        });
+        api(dataToSend);
       }
+      realm.write(() => {
+        realm.create("Product", dataToSend);
+      });
 
       Alert.alert("Produto", "Produto Registrado com sucesso!");
-    } catch (e) {
-      console.log(e);
+    } catch {
       Alert.alert("Produto", "Ops, Não consegui registrar o produto 🙁.");
     } finally {
-      realm.close();
       setIsloading(false);
     }
   };
+  const handleClose = () => {
+    setOpenModal(false);
+  }
 
   if (hasPermission === false) {
     navigation.reset({
@@ -89,16 +82,17 @@ const Scanner = () => {
   return (
     <Container>
       {openModal ? (
-        <Modal onSubmit={handleStatus} />
+        <Modal onSubmit={handleStatus} onClose={handleClose} />
       ) : (
-        hasPermission && (
+        hasPermission &&
+        !isLoading && (
           <BarCodeScanner
             onBarCodeScanned={handleCodeScanned}
             style={{ width: "100%", height: "70%" }}
           />
         )
       )}
-      {isLoading && <Loading/>}
+      {isLoading && <Loading />}
     </Container>
   );
 };
