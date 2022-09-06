@@ -10,7 +10,6 @@ import {
   CloseText,
 } from "./styled";
 import DropDownPicker from "react-native-dropdown-picker";
-import { View, Text } from "react-native";
 
 type Props = {
   onSubmit: Function;
