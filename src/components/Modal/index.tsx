@@ -6,17 +6,18 @@ import {
   ModalView,
   Button,
   ButtonText,
-
+  CloseButton,
+  CloseText,
 } from "./styled";
 import DropDownPicker from "react-native-dropdown-picker";
+import { View, Text } from "react-native";
 
 type Props = {
-  onSubmit: Function
-  onClose: Function
+  onSubmit: Function;
+  onClose: Function;
 };
 
-const Modal = ({onSubmit, onClose}:Props) => {
-  
+const Modal = ({ onSubmit, onClose }: Props) => {
   const [modalVisible, setModalVisible] = useState(true);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
@@ -27,17 +28,17 @@ const Modal = ({onSubmit, onClose}:Props) => {
   ]);
 
   const disabled = useMemo(() => {
-    return value ? false : true
-  },[value])
+    return value ? false : true;
+  }, [value]);
 
   const handleRegister = () => {
-    setModalVisible(!modalVisible)
-    onSubmit(value)
-  }
+    setModalVisible(!modalVisible);
+    onSubmit(value);
+  };
   const handleClose = () => {
-    setModalVisible(!modalVisible)
-    onClose()
-  }
+    setModalVisible(!modalVisible);
+    onClose();
+  };
 
   return (
     <Container>
@@ -45,10 +46,12 @@ const Modal = ({onSubmit, onClose}:Props) => {
         animationType="fade"
         visible={modalVisible}
         transparent={true}
-        onRequestClose={handleClose}
       >
-        <CenteredView onPressOut={handleClose}>
+        <CenteredView>
           <ModalView>
+            <CloseButton onPress={handleClose}>
+              <CloseText>X</CloseText>
+            </CloseButton>
             <DropDownPicker
               open={open}
               value={value}
@@ -62,7 +65,11 @@ const Modal = ({onSubmit, onClose}:Props) => {
                 marginTop: 10,
               }}
             />
-            <Button disabled={disabled} color={disabled ? "#c1c1c1":"#fe563f" } onPress={handleRegister}>
+            <Button
+              disabled={disabled}
+              color={disabled ? "#c1c1c1" : "#fe563f"}
+              onPress={handleRegister}
+            >
               <ButtonText>Registrar</ButtonText>
             </Button>
           </ModalView>

@@ -5,9 +5,7 @@ export const Container = styled.SafeAreaView`
   justify-content: center;
   align-items: center;
 `;
-export const CenteredView = styled.TouchableOpacity.attrs({
-  activeOpacity: 1,
-})`
+export const CenteredView = styled.View`
   width: 100%;
   height: 100%;
   background-color: rgba(0,0,0,0.5);
@@ -18,7 +16,7 @@ export const CenteredView = styled.TouchableOpacity.attrs({
 export const ContainerModal = styled.Modal``;
 export const ModalView = styled.View`
   width: 70%;
-  height: 200px;
+  height: 250px;
   border-radius: 20px;
   align-items: center;
   background-color: #fff;
@@ -52,4 +50,16 @@ export const ButtonText = styled.Text`
   color: #fff;
   font-size: 18px;
   font-weight: bold;
+`;
+
+export const CloseButton = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.7,
+})`
+  align-self:flex-end;
+  flex-direction:row;
+  padding-right:5%;
+  padding-top: 2%;
+`;
+export const CloseText = styled.Text`
+  font-size: 18px;
 `;

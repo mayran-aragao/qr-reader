@@ -49,9 +49,9 @@ const Home = () => {
   const sentProduct = async () => {
     try {
       if (isInternetReachable) {
-        const qtdSent = await sendProductsToApi();
-        if (qtdSent !== 0) {
-          Alert.alert(`${qtdSent} produtos enviados`);
+        const quantitySent = await sendProductsToApi();
+        if (quantitySent > 0) {
+          Alert.alert(`${quantitySent} produtos enviados`);
         }
       }
     } catch (error) {
